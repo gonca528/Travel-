@@ -1,0 +1,142 @@
+/* General Body Styles */
+body {
+    font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    background-color: #f0f2f6;
+    color: #333;
+}
+
+/* Main Container Styling */
+.stApp > header {
+    background-color: transparent;
+}
+
+.stApp {
+    background-color: #f0f2f6;
+}
+
+/* Customizing Streamlit components */
+.st-emotion-cache-1r6dm7m, .st-emotion-cache-k5i0t1 { /* Streamlit header/title container and main content columns/containers */
+    background-color: #ffffff;
+    padding: 1.5rem;
+    border-radius: 12px;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.1);
+    margin-bottom: 1.5rem;
+    transition: all 0.3s ease-in-out;
+}
+
+.st-emotion-cache-1r6dm7m:hover, .st-emotion-cache-k5i0t1:hover {
+    box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+}
+
+.stTextInput > div > div > input, .stSelectbox > div > div > button {
+    border-radius: 8px;
+    border: 1px solid #dcdcdc;
+    padding: 0.6rem 1rem;
+    background-color: #fdfdfd;
+    box-shadow: inset 0 1px 3px rgba(0,0,0,0.05);
+    transition: border-color 0.3s ease;
+}
+
+.stTextInput > div > div > input:focus, .stSelectbox > div > div > button:focus {
+    border-color: #4CAF50;
+    box-shadow: inset 0 1px 3px rgba(0,0,0,0.05), 0 0 0 0.2rem rgba(76, 175, 80, 0.25);
+}
+
+.stButton > button {
+    background-color: #4CAF50; /* Green */
+    color: white;
+    padding: 0.75rem 1.5rem;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: 600;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.stButton > button:hover {
+    background-color: #45a049;
+    transform: translateY(-2px);
+}
+
+/* Recommendation Card Styling */
+.recommendation-card {
+    background-color: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.12);
+    margin-bottom: 25px;
+    padding: 20px;
+    border-left: 6px solid #2196F3; /* Blue accent for recommendations */
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+}
+
+.recommendation-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.18);
+}
+
+.recommendation-card h3 {
+    color: #2c3e50 !important;
+    margin-top: 0 !important;
+    margin-bottom: 12px !important;
+    font-size: 1.6em !important;
+    font-weight: 700 !important;
+    display: block !important; /* Gerekirse görünürlüğü garanti altına al */
+    opacity: 1 !important; /* Gerekirse şeffaflığı sıfırla */
+}
+
+.recommendation-card .category,
+.recommendation-card .rating {
+    font-size: 1em;
+    color: #555;
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+}
+
+.recommendation-card .category b,
+.recommendation-card .rating b {
+    margin-right: 5px;
+    color: #333;
+}
+
+.recommendation-card .rating .star-icon {
+    color: #FFD700; /* Gold star color */
+    margin-left: 5px;
+}
+
+.recommendation-card .st-expander {
+    border: none !important;
+    background-color: #f5f5f5;
+    border-radius: 8px;
+    margin-top: 15px;
+    padding: 10px 15px;
+}
+
+.recommendation-card .st-expander button {
+    background-color: #1976D2; /* Darker blue */
+    color: white;
+    border-radius: 6px;
+    padding: 0.6rem 1.2rem;
+    font-size: 0.9em;
+}
+
+.recommendation-card .st-expander button:hover {
+    background-color: #1565C0;
+}
+
+.recommendation-card b {
+    font-weight: 600;
+}
+
+/* Map Component Styling */
+.map-container {
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.12);
+    transition: all 0.3s ease-in-out;
+}
+
+.map-container:hover {
+    box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+}
