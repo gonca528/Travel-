@@ -4,13 +4,24 @@ from dotenv import load_dotenv
 import yagmail
 
 
+def _get_secret(key: str):
+    try:
+        import streamlit as st
+        try:
+            return st.secrets[key]
+        except Exception:
+            return None
+    except Exception:
+        return None
+
+
 class EmailService:
     def __init__(self):
         load_dotenv()
-        sender_email = os.getenv("EMAIL_SENDER")
-        sender_password = os.getenv("EMAIL_PASSWORD")
+        sender_email = _get_secret("EMAIL_SENDER") or os.getenv("EMAIL_SENDER")
+        sender_password = _get_secret("EMAIL_PASSWORD") or os.getenv("EMAIL_PASSWORD")
         if not sender_email or not sender_password:
-            raise ValueError("EMAIL_SENDER or EMAIL_PASSWORD is not set in environment variables.")
+            raise ValueError("EMAIL_SENDER or EMAIL_PASSWORD is not set in environment variables/secrets.")
         self.yag = yagmail.SMTP(user=sender_email, password=sender_password)
         self.sender_email = sender_email
 
