@@ -2,6 +2,8 @@ python-dotenv
 google-generativeai
 googlemaps
 folium
-streamlit==1.12.0
+streamlit>=1.32.0
 streamlit-folium==0.11.0
 altair==4.2.2
+yagmail
+requests

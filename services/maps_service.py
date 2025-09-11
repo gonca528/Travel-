@@ -32,14 +32,47 @@ class MapsService:
         
     def get_place_coordinates(self, place_name: str) -> Optional[Coordinates]:
         try:
+            print(f"DEBUG: MapsService geocoding for: {place_name}") # DEBUG
             geocode_result = self.client.geocode(place_name)
             if geocode_result:
                 location = geocode_result[0]['geometry']['location']
+                print(f"DEBUG: MapsService found coordinates for {place_name}: {location}") # DEBUG
                 return Coordinates(latitude=location['lat'], longitude=location['lng'])
+            print(f"DEBUG: MapsService found no results for: {place_name}") # DEBUG
             return None
         except Exception as e:
-            print(f"Error getting place coordinates with Google Maps API: {e}")
+            print(f"Error getting place coordinates with Google Maps API for {place_name}: {e}") # DEBUG
             return None
+
+    def get_place_photos(self, place_name: str, max_width: int = 400) -> List[str]:
+        try:
+            # First, find the place_id using places API text search
+            places_result = self.client.places(query=place_name)
+            if not places_result or not places_result.get('results'):
+                print(f"DEBUG: No place results found for photos of {place_name}.")
+                return []
+            
+            place_id = places_result['results'][0]['place_id']
+            
+            # Then, get place details including photo references
+            details_result = self.client.place(place_id=place_id, fields=['photos'])
+            
+            photo_references = []
+            if details_result and details_result.get('result') and details_result['result'].get('photos'):
+                for photo in details_result['result']['photos']:
+                    photo_references.append(photo['photo_reference'])
+            
+            photo_urls = []
+            for ref in photo_references:
+                # Construct photo URL
+                photo_url = f"https://maps.googleapis.com/maps/api/place/photo?maxwidth={max_width}&photoreference={ref}&key={GOOGLE_MAPS_API_KEY}"
+                photo_urls.append(photo_url)
+            
+            print(f"DEBUG: Found {len(photo_urls)} photos for {place_name}.")
+            return photo_urls
+        except Exception as e:
+            print(f"Error getting place photos with Google Maps API for {place_name}: {e}")
+            return []
 
     def generate_route(self, places: List[str]) -> Optional[RouteInfo]:
         if len(places) < 2:
@@ -62,34 +95,22 @@ class MapsService:
             print(f"Error generating route with Google Maps API: {e}")
             return None
 
-    def get_nearby_places(self, lat: float, lng: float, radius: int = 5000, keyword: Optional[str] = None) -> List[Place]:
+    def get_travel_time_minutes(self, origin: Coordinates, destination: Coordinates, mode: str = "driving") -> Optional[int]:
+        """Estimate travel time in minutes between two coordinates for a given mode (driving, walking, transit)."""
         try:
-            places_result = self.client.places_nearby(
-                location=(lat, lng),
-                radius=radius,
-                keyword=keyword
+            if mode not in ["driving", "walking", "transit", "bicycling"]:
+                mode = "driving"
+            directions = self.client.directions(
+                origin=(origin.latitude, origin.longitude),
+                destination=(destination.latitude, destination.longitude),
+                mode=mode
             )
-            nearby_places = []
-            for p in places_result['results']:
-                name = p.get('name', '')
-                place_lat = p['geometry']['location']['lat']
-                place_lng = p['geometry']['location']['lng']
-                # Google Places API does not directly provide a 'description' or 'category' in nearby search results
-                # and rating is optional. We'll use dummy or default values for now.
-                rating = p.get('rating', 0.0)
-                category = p.get('types', [''])[0].replace('_', ' ').title() # Take the first type as category
-                description = f"A {category} located nearby." # Placeholder description
-
-                nearby_places.append(Place(
-                    name=name,
-                    latitude=place_lat,
-                    longitude=place_lng,
-                    description=description,
-                    category=category,
-                    rating=rating
-                ))
-            return nearby_places
+            if not directions:
+                return None
+            leg = directions[0]['legs'][0]
+            seconds = leg['duration']['value']
+            return int(round(seconds / 60))
         except Exception as e:
-            print(f"Error getting nearby places with Google Maps API: {e}")
-            return []
+            print(f"Error getting travel time: {e}")
+            return None
 

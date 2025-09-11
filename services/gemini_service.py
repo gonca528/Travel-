@@ -7,12 +7,13 @@ from config.api_keys import GEMINI_API_KEY
 
 # Placeholder for recommendation results and place details structures
 class RecommendationResult:
-    def __init__(self, title: str, description: str, rating: float, category: str, location: Dict[str, Any]):
+    def __init__(self, title: str, description: str, rating: float, category: str, location: Dict[str, Any], image_urls: Optional[List[str]] = None):
         self.title = title
         self.description = description
         self.rating = rating
         self.category = category
         self.location = location
+        self.image_urls = image_urls # Yeni eklendi
 
 class PlaceDetails:
     def __init__(self, name: str, latitude: float, longitude: float, description: str, category: str, rating: float):
@@ -65,9 +66,9 @@ class GeminiService(AIRecommendationService):
             prompt_text += f" Örnek JSON formatı: {example_json_str}"
             
             response = self.model.generate_content(prompt_text)
-            print(f"Gemini API Response Object: {response}") # Log the entire response object
+            print(f"DEBUG: Gemini API Raw Response Object: {response}") # Yeni eklendi
             if response.text:
-                print(f"Gemini API Raw Response Text: {response.text}") # Log raw response text
+                print(f"DEBUG: Gemini API Raw Response Text: {response.text}") # Log raw response text
                 cleaned_response_text = response.text.strip()
                 # Find the start and end of the JSON block
                 json_start = cleaned_response_text.find('```json')
@@ -80,10 +81,10 @@ class GeminiService(AIRecommendationService):
                     # If '```json' or '```' not found, try to parse the whole text (might be pure JSON)
                     json_string = cleaned_response_text
                 
-                print(f"Cleaned JSON string for parsing: {json_string[:500]}...") # Log cleaned JSON string
+                print(f"DEBUG: Cleaned JSON string for parsing: {json_string[:500]}...") # Log cleaned JSON string
                 try:
                     recommendations_data = json.loads(json_string)
-                    print(f"Parsed recommendations data: {recommendations_data}") # Log parsed data
+                    print(f"DEBUG: Parsed recommendations data from Gemini: {recommendations_data}") # Yeni eklendi
                     recommendations = []
                     for item in recommendations_data:
                         recommendations.append(RecommendationResult(
@@ -91,17 +92,19 @@ class GeminiService(AIRecommendationService):
                             description=item.get("description", ""),
                             rating=item.get("rating", 0.0),
                             category=item.get("category", ""),
-                            location=item.get("location", {})
+                            location=item.get("location", {}),
+                            image_urls=item.get("image_urls", []) # Yeni eklendi
                         ))
+                    print(f"DEBUG: Final RecommendationResult objects created: {[rec.__dict__ for rec in recommendations]}") # Yeni eklendi
                     return recommendations
                 except json.JSONDecodeError as e:
-                    print(f"JSON Decode Error from Gemini API: {e}. Response text: {response.text[:200]}") # Log first 200 chars
+                    print(f"ERROR: JSON Decode Error from Gemini API: {e}. Response text: {response.text[:200]}") # Log first 200 chars
                     return []
             else:
-                print(f"Empty response text from Gemini API for query: {query}")
+                print(f"DEBUG: Empty response text from Gemini API for query: {query}")
                 return []
         except Exception as e:
-            print(f"Error generating recommendations with Gemini API: {e}")
+            print(f"ERROR: Error generating recommendations with Gemini API: {e}")
             return []
 
     def get_place_details(self, place_name: str) -> Optional[PlaceDetails]:

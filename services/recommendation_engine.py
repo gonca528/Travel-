@@ -62,23 +62,39 @@ class RecommendationEngine:
         
         results_to_cache = []
         for rec in recommendations:
+            print(f"DEBUG: Recommendation from Gemini - Title: '{rec.title}', Initial Location: {rec.location}") # DEBUG
+
             # 3. Lokasyon İşleme (Google Maps API) - Koordinatları Al
+            coords = None # Koordinatları varsayılan olarak None olarak ayarla
             if not rec.location.get("lat") or not rec.location.get("lng"):
                 coords = self.maps_service.get_place_coordinates(rec.title)
                 if coords:
                     rec.location = {"lat": coords.latitude, "lng": coords.longitude}
-                    # Cache the place details if not already present
-                    self.db_manager.save_place_to_cache(
-                        place_name=rec.title,
-                        latitude=coords.latitude,
-                        longitude=coords.longitude,
-                        description=rec.description,
-                        category=rec.category,
-                        rating=rec.rating
-                    )
+            else:
+                # Gemini'den konum geliyorsa, direkt olarak kullan
+                coords = Coordinates(latitude=rec.location["lat"], longitude=rec.location["lng"])
+            
+            print(f"DEBUG: Processing recommendation '{rec.title}'. Final Location: {rec.location}") # DEBUG
+
+            # 3.5 Görsel İşleme (Google Places API) - Fotoğraf URL'lerini Al
+            image_urls = self.maps_service.get_place_photos(rec.title)
+            print(f"DEBUG: Retrieved {len(image_urls)} image URLs for '{rec.title}'.") # DEBUG
+
+            # Her durumda yer detaylarını places_cache'e kaydet (veya güncelle)
+            self.db_manager.save_place_to_cache(
+                place_name=rec.title,
+                latitude=rec.location.get("lat"), # None olabilir
+                longitude=rec.location.get("lng"), # None olabilir
+                description=rec.description,
+                category=rec.category,
+                rating=rec.rating,
+                image_urls=image_urls # Yeni eklendi
+            )
+            print(f"DEBUG: Attempted to save '{rec.title}' to cache with location: {rec.location.get('lat')}, {rec.location.get('lng')}, images: {len(image_urls) if image_urls else 0}") # DEBUG
+
             results_to_cache.append(rec.__dict__)
 
-        # 4. Veri Kaydetme
+        # 4. Veri Kaydetme (arama geçmişi için)
         self.db_manager.save_search_result(cache_key, {"recommendations": results_to_cache}, user_session_id)
         
         return recommendations
