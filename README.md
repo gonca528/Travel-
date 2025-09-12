@@ -26,8 +26,8 @@ Seçtiğiniz şehir, kategori ve ek özelliklere göre en uygun gezi noktaların
 - **Recommendation Engine** – kişiselleştirilmiş öneriler  
 - **Weather Service** – hava durumu entegrasyonu  
 - **Email Service** – planları e-posta ile gönderme  
-- **Map Component** – önerilen yerleri harita üzerinde gösterme  
-- **UUID** – kullanıcı/oturum kimlikleri oluşturma  
+- **Map Component** – önerilen yerleri harita üzerinde gösterme
+- 
 ## 📦 Gerekli Kütüphaneler  
 - **import streamlit as st**  
 - **import uuid**  
@@ -70,6 +70,7 @@ Hava Durumu Bilgisi:
 Daha doğru ve kişisel öneriler almak için filtreleri detaylı seçiniz.
 
 Kartlarda çıkan bilgiler yalnızca yönlendirme amaçlıdır.
+
 
 
 
