@@ -43,5 +43,33 @@ Seçtiğiniz şehir, kategori ve ek özelliklere göre en uygun gezi noktaların
 ## 🛠 Projeye Dair Görseller
 
 Burası, kullanıcının kendi seçimlerine göre belirlediği kısımdır.
-![Capstone9](images/Capstone1.jpeg)
+
+![Capstone9](images/Capstone9.jpeg)
+![Capstone6](images/Capstone6.jpeg)
+
+Kullanıcı seçiminden sonra önerilerin listelendiği kısım
+
+![Capstone8](images/Capstone8.jpeg)
+![Capstone5](images/Capstone5.jpeg)
+
+Harita Görünümü:  
+
+![Capstone2](images/Capstone2.jpeg)
+
+Favorilerinin listelendiği ve e-posta gönderilen kısım
+
+![Capstone7](images/Capstone7.jpeg)
+
+Hava Durumu Bilgisi:
+
+![Capstone](images/Capstone.jpeg)
+
+
+## NOT
+
+Daha doğru ve kişisel öneriler almak için filtreleri detaylı seçiniz.
+
+Kartlarda çıkan bilgiler yalnızca yönlendirme amaçlıdır.
+
+
 
