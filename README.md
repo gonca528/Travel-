@@ -42,3 +42,6 @@ Seçtiğiniz şehir, kategori ve ek özelliklere göre en uygun gezi noktaların
 
 ## 🛠 Projeye Dair Görseller
 
+Burası, kullanıcının kendi seçimlerine göre belirlediği kısımdır.
+![Capstone9](images/Capstone1.jpeg)
+
