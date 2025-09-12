@@ -27,7 +27,7 @@ Seçtiğiniz şehir, kategori ve ek özelliklere göre en uygun gezi noktaların
 - **Weather Service** – hava durumu entegrasyonu  
 - **Email Service** – planları e-posta ile gönderme  
 - **Map Component** – önerilen yerleri harita üzerinde gösterme
-- 
+
 ## 📦 Gerekli Kütüphaneler  
 - **import streamlit as st**  
 - **import uuid**  
@@ -45,11 +45,13 @@ Seçtiğiniz şehir, kategori ve ek özelliklere göre en uygun gezi noktaların
 Burası, kullanıcının kendi seçimlerine göre belirlediği kısımdır.
 
 ![Capstone9](images/Capstone9.jpeg)
+
 ![Capstone6](images/Capstone6.jpeg)
 
 Kullanıcı seçiminden sonra önerilerin listelendiği kısım
 
 ![Capstone8](images/Capstone8.jpeg)
+
 ![Capstone5](images/Capstone5.jpeg)
 
 Harita Görünümü:  
@@ -64,12 +66,16 @@ Hava Durumu Bilgisi:
 
 ![Capstone](images/Capstone.jpeg)
 
+## 🛠 Projeye Dair Video Linki
+
+https://drive.google.com/file/d/14DQH6WO2XauusXWLeoAuHMXQrdv9e4GL/view?usp=sharing
 
 ## NOT
 
 Daha doğru ve kişisel öneriler almak için filtreleri detaylı seçiniz.
 
 Kartlarda çıkan bilgiler yalnızca yönlendirme amaçlıdır.
+
 
 
 
